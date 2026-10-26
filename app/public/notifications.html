@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LP Agent — 通知</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8f751'/><text x='16' y='23' font-size='18' font-family='monospace' text-anchor='middle' fill='%230b0d0a'>L</text></svg>" />
+<link rel="stylesheet" href="/app.css" />
+<link rel="stylesheet" href="/notifications.css" />
+</head>
+<body>
+<div class="shell nt-shell">
+
+  <aside class="rail">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div class="brand-text">
+        <div class="brand-name">LP Agent</div>
+        <div class="brand-beta">M3 · INBOX</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item" href="/assistant"><i data-i="spark"></i>AI 助手</a>
+      <a class="nav-item" href="/"><i data-i="feed"></i>发现 / Feed<span class="pill">LIVE</span></a>
+      <a class="nav-item" href="/leaderboard"><i data-i="grid"></i>榜单</a>
+      <a class="nav-item" href="/assets"><i data-i="wallet"></i>我的资产</a>
+      <a class="nav-item" href="/review"><i data-i="book"></i>复盘</a>
+      <a class="nav-item active" href="/notifications"><i data-i="clock"></i>通知<span class="dot" id="navDot" hidden></span></a>
+    </nav>
+
+    <div class="rail-foot">
+      <div class="conn"><span class="live-dot"></span><span id="connText">已连接</span></div>
+      <div class="rail-user">
+        <span id="userName">—</span>
+        <button id="btnLogout" class="logout" title="退出登录">退出</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="crumb">
+        <span>工作空间</span><span class="sep">/</span><span class="crumb-cur">通知</span>
+      </div>
+      <div class="top-actions">
+        <div class="nt-filter" id="filter">
+          <button class="nt-tab on" data-f="all">全部</button>
+          <button class="nt-tab" data-f="unread">未读</button>
+          <button class="nt-tab" data-f="danger">危险</button>
+          <button class="nt-tab" data-f="auto">自动化</button>
+        </div>
+        <button class="btn ghost" id="btnMarkAll">全部已读</button>
+      </div>
+    </header>
+
+    <div class="scroll" id="scroll">
+      <section class="nt-head">
+        <div>
+          <div class="eyebrow">通知收件箱</div>
+          <div class="nt-count" id="ntCount">—</div>
+        </div>
+        <div class="nt-note">
+          自动监控与自动调仓产生的记录都会到这里。目前没有外部推送通道，需要打开此页面查看。
+        </div>
+      </section>
+
+      <div id="ntList"></div>
+    </div>
+  </main>
+</div>
+
+<script src="/notifications.js" type="module"></script>
+</body>
+</html>

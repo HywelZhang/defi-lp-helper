@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LP Agent — 我的资产</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8f751'/><text x='16' y='23' font-size='18' font-family='monospace' text-anchor='middle' fill='%230b0d0a'>L</text></svg>" />
+<link rel="stylesheet" href="/app.css" />
+<link rel="stylesheet" href="/assets.css" />
+</head>
+<body>
+<div class="shell">
+
+  <aside class="rail">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div class="brand-text">
+        <div class="brand-name">LP Agent</div>
+        <div class="brand-beta">M2 · ASSETS</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item" href="/assistant"><i data-i="spark"></i>AI 助手</a>
+      <a class="nav-item" href="/"><i data-i="feed"></i>发现 / Feed<span class="pill">LIVE</span></a>
+      <a class="nav-item" href="/leaderboard"><i data-i="grid"></i>榜单</a>
+      <a class="nav-item active" href="/assets"><i data-i="wallet"></i>我的资产</a>
+      <a class="nav-item" href="/review"><i data-i="book"></i>复盘</a>
+      <a class="nav-item" href="/notifications"><i data-i="clock"></i>通知</a>
+    </nav>
+
+    <div class="rail-foot">
+      <div class="conn"><span class="live-dot"></span><span id="connText">已连接</span></div>
+      <div class="rail-meta">链 <span id="chainName">—</span> · 同步 <span id="lastSync">—</span></div>
+      <div class="rail-user">
+        <span id="userName">—</span>
+        <button id="btnLogout" class="logout" title="退出登录">退出</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="crumb">
+        <span>工作空间</span><span class="sep">/</span><span class="crumb-cur">我的资产</span>
+      </div>
+      <div class="top-actions">
+        <button class="btn ghost" id="btnSync"><i data-i="refresh"></i>同步链上</button>
+      </div>
+    </header>
+
+    <div class="scroll" id="scroll">
+
+      <!-- portfolio summary -->
+      <section class="pf-head">
+        <div class="pf-total">
+          <div class="eyebrow">我的资产 · LP 仓位</div>
+          <div class="pf-amount" id="pfTotal">—</div>
+          <div class="pf-sub" id="pfSub"></div>
+        </div>
+        <div class="pf-stats" id="pfStats"></div>
+      </section>
+
+      <div id="degraded"></div>
+
+      <!-- Automation master switch.
+           Deliberately its own panel, not part of #alertSection: that section is
+           hidden when there are no alerts, and putting the switch inside it would
+           make the "off" state unreachable exactly when the user most needs to
+           check whether automation is running. -->
+      <section class="auto-panel" id="autoPanel">
+        <div class="auto-panel-head">
+          <div class="auto-panel-title">
+            <span class="auto-dot" id="autoDot"></span>
+            自动调仓
+            <span class="panel-count" id="autoState">检查中…</span>
+          </div>
+          <div class="auto-panel-actions">
+            <button class="mini" id="btnAutoDry">演练</button>
+            <button class="mini" id="btnAutoToggle">切换</button>
+          </div>
+        </div>
+        <div class="auto-panel-body" id="autoBody"></div>
+      </section>
+
+      <!-- automated monitoring -->
+      <section id="alertSection" hidden>
+        <div class="alert-head">
+          <div class="alert-title">
+            <span class="alert-dot"></span>自动监控
+            <span class="panel-count" id="alertCount"></span>
+          </div>
+          <div class="alert-actions">
+            <button class="mini" id="btnMonitorRun">立即检查</button>
+            <button class="mini" id="btnAckAll">全部已读</button>
+          </div>
+        </div>
+        <div id="alerts"></div>
+      </section>
+
+      <!-- positions -->
+      <section class="dsec">
+        <div class="dsec-title">仓位 <span class="panel-count" id="posCount"></span></div>
+        <div id="positions"></div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script src="/assets.js" type="module"></script>
+</body>
+</html>

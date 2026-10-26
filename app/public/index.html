@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LP Agent — Feed</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8f751'/><text x='16' y='23' font-size='18' font-family='monospace' text-anchor='middle' fill='%230b0d0a'>L</text></svg>" />
+<link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+<div class="shell">
+
+  <!-- ── rail ───────────────────────────── -->
+  <aside class="rail">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div class="brand-text">
+        <div class="brand-name">LP Agent</div>
+        <div class="brand-beta">M1 · FEED</div>
+      </div>
+    </div>
+
+    <button class="new-chat">
+      <span class="plus">＋</span> 新建对话
+      <span class="kbd">⌘K</span>
+    </button>
+
+    <nav class="nav">
+      <a class="nav-item" href="/assistant"><i data-i="spark"></i>AI 助手</a>
+      <a class="nav-item active" href="#"><i data-i="feed"></i>发现 / Feed<span class="pill">LIVE</span></a>
+      <a class="nav-item" href="/leaderboard"><i data-i="grid"></i>榜单</a>
+      <a class="nav-item" href="/assets"><i data-i="wallet"></i>我的资产</a>
+      <a class="nav-item" href="/review"><i data-i="book"></i>复盘</a>
+      <a class="nav-item" href="/notifications"><i data-i="clock"></i>通知</a>
+    </nav>
+
+    <div class="rail-sec">最近关注</div>
+    <div class="topics" id="topics"></div>
+
+    <div class="rail-foot">
+      <div class="conn"><span class="live-dot"></span><span id="connText">已连接</span></div>
+      <div class="rail-meta">
+        数据源 5 个 · 刷新 <span id="lastRefresh">—</span>
+      </div>
+      <div class="rail-user">
+        <span id="userName">—</span>
+        <button id="btnLogout" class="logout" title="退出登录">退出</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── main ───────────────────────────── -->
+  <main class="main">
+    <header class="topbar">
+      <div class="crumb">
+        <span>工作空间</span><span class="sep">/</span><span class="crumb-cur">发现</span>
+      </div>
+      <div class="top-actions">
+        <div class="search">
+          <i data-i="search"></i>
+          <input id="search" placeholder="搜索 池子 / token / 新闻   ⌘K" />
+        </div>
+        <button class="btn ghost" id="btnRefresh"><i data-i="refresh"></i>刷新</button>
+        <button class="btn primary"><i data-i="spark"></i>AI 生成简报</button>
+      </div>
+    </header>
+
+    <div class="scroll" id="scroll">
+      <section class="hero">
+        <div class="hero-left">
+          <div class="eyebrow">FEED · BASE</div>
+          <h1>今天值得看的 LP 机会<span class="tick">.</span></h1>
+          <p class="hero-sub">
+            新闻与池子推荐混合流 · 相关性由持仓与关注 token 决定 · 每张卡片可追溯到具体事实
+          </p>
+        </div>
+        <div class="hero-stats" id="heroStats">
+          <div class="stat"><div class="stat-k">候选池</div><div class="stat-v">—</div></div>
+          <div class="stat"><div class="stat-k">已评分</div><div class="stat-v">—</div></div>
+          <div class="stat"><div class="stat-k">新闻源</div><div class="stat-v">—</div></div>
+          <div class="stat"><div class="stat-k">最高分</div><div class="stat-v">—</div></div>
+        </div>
+      </section>
+
+      <div class="filters">
+        <div class="tabs" id="tabs">
+          <button class="tab active" data-kind="">全部</button>
+          <button class="tab" data-kind="pool">池推荐</button>
+          <button class="tab" data-kind="news">新闻</button>
+          <button class="tab" data-kind="watch">命中关注</button>
+          <button class="tab" data-kind="high-score">高分池</button>
+        </div>
+        <div class="filters-right">
+          <label class="switch"><input type="checkbox" id="autoRefresh" checked /><span></span>自动刷新</label>
+          <button class="icon-btn" id="btnDensity" title="紧凑模式"><i data-i="list"></i></button>
+        </div>
+      </div>
+
+      <div class="stream" id="stream"></div>
+
+      <div class="stream-foot" id="streamFoot"></div>
+    </div>
+  </main>
+
+  <!-- ── right rail ─────────────────────── -->
+  <aside class="right">
+    <div class="panel">
+      <div class="panel-head">
+        <span>市场快照</span>
+        <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+      </div>
+      <div class="market" id="market"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span>关注 token</span>
+        <span class="panel-count" id="watchCount"></span>
+      </div>
+      <div class="watch" id="watch"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span>任务状态</span>
+        <span class="panel-count">自动</span>
+      </div>
+      <div class="jobs" id="jobs"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><span>数据来源</span></div>
+      <div class="sources" id="sources"></div>
+    </div>
+  </aside>
+</div>
+
+<!-- ── detail drawer ────────────────────── -->
+<div class="drawer-scrim" id="scrim"></div>
+<aside class="drawer" id="drawer">
+  <div class="drawer-head">
+    <div>
+      <div class="drawer-eyebrow" id="drawerEyebrow">POOL</div>
+      <h2 id="drawerTitle">—</h2>
+      <div class="drawer-sub" id="drawerSub"></div>
+    </div>
+    <button class="icon-btn" id="closeDrawer"><i data-i="close"></i></button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+</aside>
+
+<script src="/app.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LP Agent — 榜单</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8f751'/><text x='16' y='23' font-size='18' font-family='monospace' text-anchor='middle' fill='%230b0d0a'>L</text></svg>" />
+<link rel="stylesheet" href="/app.css" />
+<link rel="stylesheet" href="/leaderboard.css" />
+</head>
+<body>
+<div class="shell">
+
+  <aside class="rail">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div class="brand-text">
+        <div class="brand-name">LP Agent</div>
+        <div class="brand-beta">M3 · BOARDS</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      <a class="nav-item" href="/assistant"><i data-i="spark"></i>AI 助手</a>
+      <a class="nav-item" href="/"><i data-i="feed"></i>发现 / Feed<span class="pill">LIVE</span></a>
+      <a class="nav-item active" href="/leaderboard"><i data-i="grid"></i>榜单</a>
+      <a class="nav-item" href="/assets"><i data-i="wallet"></i>我的资产</a>
+      <a class="nav-item" href="/review"><i data-i="book"></i>复盘</a>
+      <a class="nav-item" href="/notifications"><i data-i="clock"></i>通知</a>
+    </nav>
+
+    <div class="rail-foot">
+      <div class="conn"><span class="live-dot"></span><span id="connText">已连接</span></div>
+      <div class="rail-meta">链 <span id="chainName">—</span></div>
+      <div class="rail-user">
+        <span id="userName">—</span>
+        <button id="btnLogout" class="logout" title="退出登录">退出</button>
+      </div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="crumb">
+        <span>工作空间</span><span class="sep">/</span><span class="crumb-cur">榜单</span>
+      </div>
+      <div class="top-actions">
+        <label class="lb-capital">
+          <span>本金</span>
+          <input id="capitalInput" type="number" min="10" step="100" value="2000" />
+          <span>USD</span>
+        </label>
+        <button class="btn ghost" id="btnRefresh"><i data-i="refresh"></i>刷新</button>
+      </div>
+    </header>
+
+    <div class="scroll" id="scroll">
+      <section class="lb-head">
+        <div class="eyebrow">LP 榜单</div>
+        <h1 class="lb-h1">按你的情况，<br />而不是按全网总榜。</h1>
+        <div class="lb-basis" id="lbBasis">—</div>
+      </section>
+
+      <div class="lb-tabs" id="lbTabs"></div>
+      <div id="lbBody"></div>
+    </div>
+  </main>
+</div>
+
+<script src="/leaderboard.js" type="module"></script>
+</body>
+</html>

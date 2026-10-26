@@ -1,0 +1,12 @@
+{
+  "name": "defi-lp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "DeFi LP trading assistant — M1 Feed",
+  "scripts": {
+    "serve": "node app/server.ts",
+    "ingest": "node cli/lp.ts ingest",
+    "cli": "node cli/lp.ts"
+  }
+}

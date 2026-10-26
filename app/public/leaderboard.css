@@ -1,0 +1,208 @@
+/* LP Agent — 榜单 */
+
+/* ── header ─────────────────────────────── */
+.lb-capital {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--muted);
+  font-family: var(--mono);
+}
+.lb-capital input {
+  width: 76px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  color: var(--text);
+  padding: 5px 8px;
+  font-size: 12px;
+  font-family: var(--mono);
+  outline: none;
+  text-align: right;
+}
+.lb-capital input:focus { border-color: #3a4430; }
+
+/* ── hero ───────────────────────────────── */
+.lb-head { padding: 24px 0 16px; }
+.lb-h1 {
+  font-size: 25px;
+  line-height: 1.35;
+  font-weight: 640;
+  letter-spacing: -0.01em;
+  margin: 4px 0 8px;
+}
+.lb-basis {
+  font-size: 11.5px;
+  color: var(--muted-2);
+  font-family: var(--mono);
+}
+.lb-basis.personal { color: var(--lime-dim); }
+.lb-basis::before {
+  content: "▪ ";
+  opacity: .6;
+}
+
+/* ── board tabs ─────────────────────────── */
+.lb-tabs {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--line-soft);
+  padding-bottom: 10px;
+  margin-bottom: 4px;
+}
+.lb-tab {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 7px 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: background .12s, border-color .12s;
+}
+.lb-tab:hover { background: var(--panel); }
+.lb-tab.on {
+  background: #1b2116;
+  border-color: rgba(200,247,81,.22);
+}
+.lb-tab-label { font-size: 12.5px; color: var(--text-2); }
+.lb-tab.on .lb-tab-label { color: var(--lime); font-weight: 600; }
+.lb-tab-count { font-family: var(--mono); font-size: 9.5px; color: var(--muted-2); }
+
+/* ── board body ─────────────────────────── */
+.lb-intent {
+  font-size: 12px;
+  color: var(--muted);
+  padding: 12px 0 10px;
+  line-height: 1.6;
+}
+.lb-intent b { color: var(--text-2); font-weight: 600; }
+
+.lb-list { display: flex; flex-direction: column; gap: 6px; padding-bottom: 40px; }
+
+.lb-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 13px;
+  border: 1px solid var(--line-soft);
+  border-radius: 10px;
+  background: var(--panel);
+  transition: border-color .15s, background .15s;
+}
+.lb-row:hover { border-color: #333a2b; background: var(--panel-2); }
+
+.lb-rank {
+  flex: 0 0 22px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted-2);
+  text-align: right;
+}
+.lb-row:first-child .lb-rank { color: var(--lime); }
+
+.lb-main { flex: 1 1 auto; min-width: 0; }
+.lb-name {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 3px;
+}
+.lb-name b { font-size: 13px; font-weight: 600; color: var(--text); }
+.lb-dex { font-family: var(--mono); font-size: 9.5px; color: var(--muted-2); }
+.lb-fee {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: #1d2318;
+  color: var(--muted);
+}
+
+.lb-why {
+  font-size: 11px;
+  color: var(--muted-2);
+  line-height: 1.5;
+}
+.lb-personal {
+  font-size: 10.5px;
+  color: var(--lime-dim);
+  margin-left: 8px;
+}
+
+.lb-nums {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.lb-num { text-align: right; }
+.lb-num-k {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted-2);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.lb-num-v {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-2);
+  margin-top: 2px;
+}
+.lb-num-v.hi { color: var(--lime); }
+
+.lb-grade {
+  flex: 0 0 34px;
+  text-align: center;
+}
+.lb-grade-badge {
+  display: inline-block;
+  min-width: 30px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+}
+.lb-grade-badge.a { background: rgba(102,217,138,.14); color: var(--green); }
+.lb-grade-badge.b { background: rgba(200,247,81,.12); color: var(--lime); }
+.lb-grade-badge.c { background: rgba(245,181,68,.13); color: var(--amber); }
+.lb-grade-badge.d { background: rgba(255,107,107,.12); color: var(--red); }
+.lb-grade-badge.f { background: rgba(255,107,107,.2); color: var(--red); }
+.lb-grade-score {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--muted-2);
+  margin-top: 2px;
+}
+
+.lb-open {
+  flex: 0 0 auto;
+  font-size: 11.5px;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  padding: 4px 9px;
+}
+.lb-open:hover { color: var(--lime); border-color: rgba(200,247,81,.4); }
+
+.lb-empty {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--muted-2);
+  font-size: 12.5px;
+}
+
+/* ── responsive ─────────────────────────── */
+@media (max-width: 1000px) {
+  .lb-nums { gap: 12px; }
+  .lb-num:nth-child(n+3) { display: none; }
+}
+@media (max-width: 760px) {
+  .lb-nums, .lb-grade { display: none; }
+  .lb-tabs { gap: 2px; }
+  .lb-tab { padding: 6px 9px; }
+}

@@ -1,0 +1,329 @@
+/* LP Agent — 复盘 (M4) */
+
+.rv-stylebar {
+  margin: 20px 0 16px;
+  padding: 11px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  font-size: 12.5px;
+  line-height: 1.6;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.rv-stylebar.live {
+  border-color: rgba(200, 247, 81, 0.35);
+  background: rgba(200, 247, 81, 0.05);
+}
+
+.rv-stylebar.off {
+  border-color: rgba(245, 181, 68, 0.3);
+  background: rgba(245, 181, 68, 0.05);
+}
+
+.rv-stylebar .sb-icon {
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.4;
+  flex: 0 0 auto;
+}
+
+.rv-stylebar.live .sb-icon { color: var(--lime); }
+.rv-stylebar.off .sb-icon { color: var(--amber); }
+
+.rv-stylebar b { font-weight: 600; }
+.rv-stylebar .sb-note { color: var(--muted); }
+
+/* ── tabs ───────────────────────────────── */
+.rv-tabs {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 16px;
+}
+
+.rv-tab {
+  padding: 9px 15px;
+  font-size: 12.5px;
+  color: var(--muted);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color .15s, border-color .15s;
+}
+
+.rv-tab:hover { color: var(--text-2); }
+
+.rv-tab.active {
+  color: var(--text);
+  border-bottom-color: var(--lime);
+}
+
+.rv-pane { display: none; }
+.rv-pane.active { display: block; }
+
+/* ── controls ───────────────────────────── */
+.rv-controls {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.rv-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 220px;
+}
+
+.rv-field > span {
+  font-size: 10.5px;
+  font-family: var(--mono);
+  color: var(--muted-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.rv-field select {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  padding: 8px 10px;
+  font-size: 12.5px;
+  font-family: inherit;
+  outline: none;
+}
+
+.rv-field select:focus { border-color: #3a4430; }
+
+/* ── review card ────────────────────────── */
+.rv-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 16px 18px;
+  margin-bottom: 13px;
+}
+
+.rv-head {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line-soft);
+  flex-wrap: wrap;
+}
+
+.rv-verdict {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 620;
+  padding: 2px 9px;
+  border-radius: 4px;
+  background: var(--panel-2);
+  color: var(--muted);
+}
+
+.rv-verdict.good { background: rgba(102, 217, 138, 0.14); color: var(--green); }
+.rv-verdict.bad { background: rgba(255, 107, 107, 0.14); color: var(--red); }
+.rv-verdict.neutral { background: rgba(140, 150, 130, 0.16); color: var(--text-2); }
+.rv-verdict.mixed { background: rgba(245, 181, 68, 0.14); color: var(--amber); }
+
+.rv-headline {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text);
+  font-weight: 550;
+  /* No flex-basis here: the parent is a COLUMN flex container, so a px basis
+     would be interpreted as height — one line of text became a 320px block of
+     empty space. Width is governed by the row-level wrapper instead. */
+  min-width: 0;
+}
+
+.rv-meta {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--muted-2);
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* ── facts grid ─────────────────────────── */
+.rv-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 11px 16px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.rv-facts .fk {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--muted-2);
+}
+
+.rv-facts .fv {
+  font-size: 12.5px;
+  font-family: var(--mono);
+  color: var(--text-2);
+  margin-top: 2px;
+  word-break: break-all;
+}
+
+.rv-facts .fv.up { color: var(--green); }
+.rv-facts .fv.down { color: var(--red); }
+
+/* ── claim sections ─────────────────────── */
+.rv-sec {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.rv-sec:last-child { border-bottom: none; padding-bottom: 0; }
+
+.rv-sec-title {
+  font-size: 10.5px;
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted-2);
+  margin-bottom: 7px;
+}
+
+.rv-sec.warn .rv-sec-title { color: var(--amber); }
+.rv-sec.good .rv-sec-title { color: var(--green); }
+
+.rv-claim {
+  display: flex;
+  gap: 8px;
+  font-size: 12.5px;
+  line-height: 1.6;
+  color: var(--text-2);
+  padding: 3px 0;
+}
+
+.rv-claim::before {
+  content: "·";
+  color: var(--muted-2);
+  flex: 0 0 auto;
+}
+
+.rv-claim .refs {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted-2);
+  margin-left: 6px;
+  white-space: nowrap;
+}
+
+/* ── gaps ───────────────────────────────── */
+.rv-gaps {
+  margin-top: 11px;
+  padding: 9px 11px;
+  border-left: 2px solid var(--line);
+  background: var(--bg-2);
+  border-radius: 0 6px 6px 0;
+}
+
+.rv-gaps .gk {
+  font-size: 10px;
+  font-family: var(--mono);
+  color: var(--muted-2);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 5px;
+}
+
+.rv-gaps li {
+  font-size: 11.5px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin-left: 14px;
+}
+
+/* ── states ─────────────────────────────── */
+.rv-empty {
+  padding: 26px 0;
+  text-align: center;
+  color: var(--muted-2);
+  font-size: 12.5px;
+}
+
+.rv-busy {
+  display: flex;
+  gap: 9px;
+  align-items: center;
+  padding: 18px 0;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+.rv-degraded {
+  border-left: 2px solid var(--amber);
+  background: rgba(245, 181, 68, 0.05);
+  padding: 10px 12px;
+  border-radius: 0 6px 6px 0;
+  font-size: 12px;
+  color: var(--amber);
+  margin-bottom: 11px;
+}
+
+/* ── history ────────────────────────────── */
+.rv-hist {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  border: 1px solid var(--line-soft);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.rv-hist-row {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  padding: 9px 12px;
+  background: var(--panel);
+  font-size: 12px;
+  cursor: pointer;
+  transition: background .12s;
+}
+
+.rv-hist-row:hover { background: var(--panel-2); }
+
+.rv-hist-row .hk {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted-2);
+  flex: 0 0 54px;
+}
+
+.rv-hist-row .ht {
+  flex: 1 1 auto;
+  color: var(--text-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rv-hist-row .hs {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--muted-2);
+  flex: 0 0 auto;
+}
+
+.rv-hist-row .hs.bad { color: var(--amber); }
+
+@media (max-width: 760px) {
+  .rv-facts { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+  .rv-meta { text-align: left; }
+}

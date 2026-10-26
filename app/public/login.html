@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>LP Agent · 登录</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8f751'/><text x='16' y='23' font-size='18' font-family='monospace' text-anchor='middle' fill='%230b0d0a'>L</text></svg>" />
+<link rel="stylesheet" href="/login.css" />
+</head>
+<body>
+<div class="wrap">
+  <div class="card">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div>
+        <div class="brand-name">LP Agent</div>
+        <div class="brand-sub">PRIVATE WORKSPACE</div>
+      </div>
+    </div>
+
+    <h1>登录</h1>
+    <p class="hint">此工作台包含付费 AI 分析与个人仓位数据，仅限授权访问。</p>
+
+    <form id="form" autocomplete="off">
+      <label class="field">
+        <span class="label">用户名</span>
+        <input id="username" name="username" type="text" autocomplete="username" required
+               spellcheck="false" autocapitalize="none" />
+      </label>
+
+      <label class="field">
+        <span class="label">密码</span>
+        <div class="pw">
+          <input id="password" name="password" type="password" autocomplete="current-password" required />
+          <button type="button" id="toggle" class="toggle" aria-label="显示密码">显示</button>
+        </div>
+      </label>
+
+      <div class="err" id="err" role="alert" hidden></div>
+
+      <button id="submit" class="submit" type="submit">
+        <span id="submitText">进入工作台</span>
+      </button>
+    </form>
+
+    <div class="foot">
+      <span class="dot"></span>
+      <span id="conn">安全连接已建立</span>
+    </div>
+  </div>
+
+  <div class="meta">
+    <span>会话有效期 14 天</span>
+    <span>·</span>
+    <span>连续输错 5 次锁定 15 分钟</span>
+  </div>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const form = $("#form");
+const err = $("#err");
+const btn = $("#submit");
+const btnText = $("#submitText");
+
+// Show the toggle only after typing, to keep the first view clean
+$("#password").addEventListener("input", (e) => {
+  $("#toggle").style.visibility = e.target.value ? "visible" : "hidden";
+});
+
+$("#toggle").addEventListener("click", () => {
+  const p = $("#password");
+  const showing = p.type === "text";
+  p.type = showing ? "password" : "text";
+  $("#toggle").textContent = showing ? "显示" : "隐藏";
+  p.focus();
+});
+
+function showError(msg) {
+  err.textContent = msg;
+  err.hidden = false;
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  err.hidden = true;
+  btn.disabled = true;
+  btnText.textContent = "验证中…";
+
+  try {
+    const res = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        username: $("#username").value,
+        password: $("#password").value,
+      }),
+    });
+    const data = await res.json().catch(() => ({}));
+
+    if (res.ok && data.ok) {
+      btnText.textContent = "进入中…";
+      // full navigation (not fetch) so the httpOnly cookie is picked up and
+      // the server-side gate re-evaluates the page
+      location.replace(new URLSearchParams(location.search).get("next") || "/");
+      return;
+    }
+
+    if (res.status === 429) {
+      showError(data.error || "尝试过于频繁，请稍后再试");
+    } else {
+      showError(data.error || "用户名或密码错误");
+    }
+    $("#password").select();
+  } catch (e2) {
+    showError("网络错误，请重试");
+  } finally {
+    btn.disabled = false;
+    btnText.textContent = "进入工作台";
+  }
+});
+
+// If already logged in, skip the form
+fetch("/api/auth/status", { credentials: "same-origin" })
+  .then((r) => r.json())
+  .then((d) => {
+    if (d.authenticated) location.replace("/");
+    if (d.configured === false) {
+      showError("尚未设置登录凭据，请在服务器端初始化");
+    }
+  })
+  .catch(() => {});
+</script>
+</body>
+</html>

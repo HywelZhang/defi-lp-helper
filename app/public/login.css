@@ -1,0 +1,152 @@
+/* Login — same palette as the workspace, deliberately quieter. */
+
+:root {
+  --bg: #0b0d0a;
+  --panel: #12140f;
+  --line: #23271d;
+  --line-soft: #1a1e16;
+  --text: #e8ecdf;
+  --text-2: #b3bcaa;
+  --muted: #8b9480;
+  --muted-2: #6a7361;
+  --lime: #c8f751;
+  --red: #ff6b6b;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(900px 500px at 50% -10%, rgba(200, 247, 81, 0.07), transparent 70%),
+    var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 13.5px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.card {
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--panel) 0%, #0f120a 100%);
+  border-radius: 14px;
+  padding: 26px 24px 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(200, 247, 81, 0.03);
+}
+
+/* brand */
+.brand { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; }
+.brand-mark {
+  width: 32px; height: 32px; border-radius: 9px;
+  background: var(--lime); color: #0b0d0a;
+  display: grid; place-items: center;
+  font-weight: 800; font-size: 18px;
+  box-shadow: 0 0 0 1px rgba(200, 247, 81, 0.3), 0 6px 18px rgba(200, 247, 81, 0.18);
+}
+.brand-name { font-weight: 650; font-size: 14.5px; letter-spacing: 0.2px; }
+.brand-sub {
+  font-family: var(--mono); font-size: 9.5px; letter-spacing: 1.4px;
+  color: var(--muted-2);
+}
+
+h1 { margin: 0 0 6px; font-size: 19px; font-weight: 620; letter-spacing: -0.2px; }
+
+.hint {
+  margin: 0 0 20px; font-size: 12px; color: var(--muted); line-height: 1.6;
+}
+
+/* fields */
+.field { display: block; margin-bottom: 13px; }
+
+.label {
+  display: block; font-size: 11px; color: var(--muted);
+  font-family: var(--mono); letter-spacing: 0.4px; margin-bottom: 5px;
+}
+
+input[type="text"], input[type="password"] {
+  width: 100%; padding: 9px 11px;
+  background: #0c0f08; color: var(--text);
+  border: 1px solid var(--line); border-radius: 8px;
+  font-family: inherit; font-size: 13.5px;
+  outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+}
+input::placeholder { color: var(--muted-2); }
+input:focus {
+  border-color: #3f4d31;
+  box-shadow: 0 0 0 3px rgba(200, 247, 81, 0.08);
+}
+
+.pw { position: relative; }
+.pw input { padding-right: 56px; }
+.toggle {
+  position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer;
+  color: var(--muted); font-size: 11px; font-family: var(--mono);
+  padding: 4px 6px; border-radius: 5px; visibility: hidden;
+}
+.toggle:hover { color: var(--lime); background: rgba(200, 247, 81, 0.07); }
+
+/* error */
+.err {
+  background: rgba(255, 107, 107, 0.08);
+  border: 1px solid rgba(255, 107, 107, 0.25);
+  color: #f0a6a0; border-radius: 7px;
+  padding: 8px 10px; font-size: 12px; margin-bottom: 12px;
+}
+
+/* submit */
+.submit {
+  width: 100%; margin-top: 4px; padding: 10px;
+  background: var(--lime); color: #0b0d0a;
+  border: none; border-radius: 9px;
+  font-weight: 650; font-size: 13.5px; cursor: pointer;
+  transition: filter 0.15s, transform 0.08s;
+}
+.submit:hover:not(:disabled) { filter: brightness(1.06); }
+.submit:active:not(:disabled) { transform: translateY(1px); }
+.submit:disabled { opacity: 0.65; cursor: default; }
+
+/* foot */
+.foot {
+  margin-top: 18px; padding-top: 13px;
+  border-top: 1px solid var(--line-soft);
+  display: flex; align-items: center; gap: 7px;
+  font-size: 10.5px; color: var(--muted-2); font-family: var(--mono);
+}
+.dot {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--lime);
+  box-shadow: 0 0 0 0 rgba(200, 247, 81, 0.5);
+  animation: pulse 2.4s infinite;
+}
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(200, 247, 81, 0.45); }
+  70% { box-shadow: 0 0 0 5px rgba(200, 247, 81, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(200, 247, 81, 0); }
+}
+
+.meta {
+  display: flex; justify-content: center; gap: 7px;
+  font-size: 10.5px; color: var(--muted-2); font-family: var(--mono);
+}
+
+@media (max-width: 420px) {
+  .card { padding: 22px 18px 18px; }
+  .meta { font-size: 8.5px; }
+}

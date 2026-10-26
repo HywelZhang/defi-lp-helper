@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>LP Agent — AI 助手</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23c8f751'/><text x='16' y='23' font-size='18' font-family='monospace' text-anchor='middle' fill='%230b0d0a'>L</text></svg>" />
+<link rel="stylesheet" href="/app.css" />
+<link rel="stylesheet" href="/assistant.css" />
+</head>
+<body>
+<div class="shell as-shell">
+
+  <!-- ── rail ───────────────────────────── -->
+  <aside class="rail">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div class="brand-text">
+        <div class="brand-name">LP Agent</div>
+        <div class="brand-beta">M0 · ASSISTANT</div>
+      </div>
+    </div>
+
+    <button class="new-chat" id="btnNewChat">
+      <span class="plus">＋</span> 新建对话
+    </button>
+
+    <nav class="nav">
+      <a class="nav-item active" href="/assistant"><i data-i="spark"></i>AI 助手</a>
+      <a class="nav-item" href="/"><i data-i="feed"></i>发现 / Feed<span class="pill">LIVE</span></a>
+      <a class="nav-item" href="/assets"><i data-i="wallet"></i>我的资产</a>
+      <a class="nav-item" href="/review"><i data-i="book"></i>复盘</a>
+      <a class="nav-item" href="/leaderboard"><i data-i="grid"></i>榜单</a>
+      <a class="nav-item" href="/notifications"><i data-i="clock"></i>通知</a>
+    </nav>
+
+    <div class="rail-sec">
+      <span>最近对话</span>
+      <button class="rail-mini" id="btnToggleSessions" title="收起/展开">−</button>
+    </div>
+    <div class="as-sessions" id="sessions"></div>
+
+    <div class="rail-foot">
+      <div class="conn"><span class="live-dot"></span><span id="connText">已连接</span></div>
+      <div class="rail-user">
+        <span id="userName">—</span>
+        <button id="btnLogout" class="logout" title="退出登录">退出</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── main ───────────────────────────── -->
+  <main class="main">
+    <header class="topbar">
+      <div class="crumb">
+        <span>工作空间</span><span class="sep">/</span><span class="crumb-cur" id="crumbCur">AI 助手</span>
+      </div>
+      <div class="top-actions">
+        <button class="btn ghost" id="btnSkills" title="管理技能">
+          <i data-i="layers"></i><span id="skillCount">技能</span>
+        </button>
+        <button class="btn ghost" id="btnBudget" title="AI 用量">
+          <i data-i="clock"></i><span id="budgetLabel">额度</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="as-thread" id="thread">
+      <!-- greeting / onboarding, replaced by messages once a chat starts -->
+      <div class="as-intro" id="intro">
+        <h1 class="as-h1">从一个问题，<br />到你的下一步操作。</h1>
+        <p class="as-sub">问仓位、问池子、问风险。回答只基于系统里的真实数据，不猜。</p>
+
+        <section class="as-start">
+          <div class="as-start-head">
+            <span class="as-start-title">第一次来？从这里开始</span>
+            <span class="as-start-hint">先了解你的仓位和偏好，再给建议</span>
+          </div>
+          <div class="as-start-form">
+            <label class="as-field">
+              <span>计划预算（USD）</span>
+              <input id="seedBudget" type="number" min="1" step="10" placeholder="例如 500" value="500" />
+            </label>
+            <label class="as-field">
+              <span>关注重点</span>
+              <select id="seedFocus">
+                <option value="先了解，再决定">先了解，再决定</option>
+                <option value="稳健优先，控制回撤">稳健优先，控制回撤</option>
+                <option value="收益优先，能承受波动">收益优先，能承受波动</option>
+                <option value="小额试验，验证流程">小额试验，验证流程</option>
+              </select>
+            </label>
+            <button class="btn primary" id="btnStart">开始探索 →</button>
+          </div>
+        </section>
+
+        <div class="as-quick" id="quick"></div>
+      </div>
+
+      <div class="as-messages" id="messages"></div>
+    </div>
+
+    <!-- ── composer ───────────────────────── -->
+    <div class="as-composer">
+      <div class="as-chain" id="chainChips"></div>
+      <div class="as-input-wrap">
+        <textarea id="input" rows="1" placeholder="问我任何 LP 相关的问题…（Enter 发送，Shift+Enter 换行）"></textarea>
+        <button class="as-send" id="btnSend" title="发送">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        </button>
+      </div>
+      <div class="as-hint" id="hint">回答基于当前系统中的仓位、计划与推荐数据</div>
+    </div>
+  </main>
+
+  <!-- ── right ──────────────────────────── -->
+  <aside class="right">
+    <div class="panel">
+      <div class="panel-head">
+        <span>市场快照</span>
+        <span class="live-badge"><span class="live-dot"></span>LIVE</span>
+      </div>
+      <div class="market" id="market"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span>已启用的技能</span>
+        <button class="panel-add" id="btnManageSkills" title="管理">＋</button>
+      </div>
+      <div class="as-skills" id="skillsPanel"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span>已连接的能力</span>
+        <button class="panel-add" id="btnManageInts" title="管理">＋</button>
+      </div>
+      <div class="as-ints" id="intsPanel"></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <span>AI 用量</span>
+        <span class="panel-count" id="spendDay">—</span>
+      </div>
+      <div class="as-usage" id="usage"></div>
+    </div>
+  </aside>
+</div>
+
+<!-- ── modals ───────────────────────────── -->
+<div class="as-modal-scrim" id="modalScrim"></div>
+
+<div class="as-modal" id="skillsModal" role="dialog" aria-modal="true">
+  <div class="as-modal-head">
+    <span>技能管理</span>
+    <button class="as-modal-x" data-close>✕</button>
+  </div>
+  <div class="as-modal-body" id="skillsList"></div>
+  <div class="as-modal-foot">
+    <span class="as-modal-note">关闭的技能不会注入到对话上下文；改动立即生效。</span>
+  </div>
+</div>
+
+<div class="as-modal" id="intsModal" role="dialog" aria-modal="true">
+  <div class="as-modal-head">
+    <span>三方链接管理</span>
+    <button class="as-modal-x" data-close>✕</button>
+  </div>
+  <div class="as-modal-body">
+    <div class="as-ints-list" id="intsList"></div>
+    <div class="as-int-form">
+      <div class="as-int-row">
+        <input id="intName" placeholder="名称，如 Curve" maxlength="40" />
+        <select id="intKind">
+          <option value="chain">链</option>
+          <option value="dex">DEX</option>
+          <option value="protocol">协议</option>
+          <option value="data">数据</option>
+          <option value="tool">工具</option>
+        </select>
+      </div>
+      <div class="as-int-row">
+        <input id="intUrl" placeholder="链接，如 https://curve.fi" maxlength="200" />
+        <select id="intStatus">
+          <option value="connected">已连接</option>
+          <option value="available">可用未连接</option>
+          <option value="unknown">未知</option>
+        </select>
+      </div>
+      <button class="btn primary" id="btnAddInt" style="width:100%">添加 / 更新</button>
+    </div>
+  </div>
+</div>
+
+<script src="/assistant.js" type="module"></script>
+</body>
+</html>
